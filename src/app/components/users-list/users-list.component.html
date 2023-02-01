@@ -1,0 +1,75 @@
+<div class="nav">
+  <mat-toolbar color="basic">
+    <span>Users</span>
+    <span class="toolbar-spacer"></span>
+    <mat-form-field class="example-full-width">
+      <input matInput type="text" placeholder="Search" [(ngModel)]="term" />
+    </mat-form-field>
+    <button
+      class="filter-icon"
+      mat-icon-button
+      [matMenuTriggerFor]="filterMenu"
+    >
+      <mat-icon>filter_list</mat-icon>
+    </button>
+    <mat-menu #filterMenu="matMenu">
+      <button mat-menu-item (click)="filterBy('name')">Name</button>
+      <button mat-menu-item (click)="filterBy('email')">Email</button>
+    </mat-menu>
+    <!-- <span class="toolbar-spacer"></span> -->
+    <button
+      mat-raised-button
+      color="warn"
+      (click)="onCreateUser()"
+      [routerLink]="['create-user']"
+    >
+      Create User
+    </button>
+    <!-- <app-create-user [data]="selectedData"></app-create-user> -->
+  </mat-toolbar>
+</div>
+
+<div class="user-list">
+  <table mat-table>
+    <tr>
+      <th (click)="sortList('firstName')">Name</th>
+      <th (click)="sortList('gender')">Gender</th>
+      <th (click)="sortList('dateOfBirth')">Date of Birth</th>
+      <th>Email</th>
+      <th>Phone</th>
+    </tr>
+    <tr
+      *ngFor="
+        let user of displayedUsers | filter : filterOption : term | keyvalue
+      "
+    >
+      <td>{{ user.value.firstName }} {{ user.value.lastName }}</td>
+      <td>{{ user.value.gender }}</td>
+      <td>{{ user.value.dateOfBirth }}</td>
+      <td>{{ user.value.email }}</td>
+      <td>{{ user.value.phone }}</td>
+      <td>
+        <button
+          mat-raised-button
+          color="primary"
+          data="data2"
+          (click)="editUser(user)"
+          [routerLink]="['create-user']"
+        >
+          Edit
+        </button>
+        <!-- <app-create-user [data]="selectedData"></app-create-user> -->
+
+        <button mat-icon-button (click)="deleteUser(user.value)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </tr>
+  </table>
+  <mat-paginator
+    [length]="totalUsers"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="handlePageChange($event)"
+  ></mat-paginator>
+</div>

@@ -1,0 +1,240 @@
+<!-- <p>create-user works!</p> -->
+<div class="form-container">
+  <h1>Create New User</h1>
+  <form [formGroup]="createUserForm" (ngSubmit)="onSubmit()">
+    <div class="mat-form-field">
+      <h3>Profile Picture</h3>
+      <input
+        type="file"
+        accept="image/jpg, image/png"
+        formControlName="photo"
+        required
+      />
+      <!-- <mat-icon class="file-input-icon">attach_file</mat-icon> -->
+
+      <mat-error
+        *ngIf="
+          createUserForm.get('photo')?.invalid &&
+          createUserForm.get('photo')?.touched
+        "
+      >
+        Please select a photo (jpeg or png format only)
+      </mat-error>
+    </div>
+
+    <mat-form-field class="mat-form">
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="firstName"
+        formControlName="firstName"
+        placeholder="First Name"
+      />
+      <mat-error
+        *ngIf="
+          createUserForm.get('firstName')?.invalid &&
+          createUserForm.get('firstName')?.touched
+        "
+      >
+        Please enter valid first name (minimum 2 characters)
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="mat-form">
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="lastName"
+        formControlName="lastName"
+        placeholder="Last Name"
+      />
+      <mat-error
+        *ngIf="
+          createUserForm.get('lastName')?.invalid &&
+          createUserForm.get('lastName')?.touched
+        "
+      >
+        Please enter valid last name (minimum 2 characters)
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="mat-form">
+      <input
+        matInput
+        [matDatepicker]="picker"
+        formControlName="dateOfBirth"
+        placeholder="Date of Birth"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error
+        *ngIf="
+          createUserForm.get(dateOfBirth)?.invalid &&
+          createUserForm.get(dateOfBirth)?.touched
+        "
+      >
+        Please select date of birth
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="mat-form">
+      <input matInput type="text" formControlName="city" placeholder="City" />
+    </mat-form-field>
+
+    <mat-form-field class="mat-form">
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="phone"
+        formControlName="phone"
+        placeholder="Phone"
+      />
+      <mat-error
+        *ngIf="
+          createUserForm.get(phone)?.invalid &&
+          createUserForm.get(phone)?.touched
+        "
+      >
+        Please enter valid phone number
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="mat-form">
+      <input
+        matInput
+        type="email"
+        [(ngModel)]="email"
+        formControlName="email"
+        placeholder="Email"
+      />
+      <mat-error
+        *ngIf="
+          createUserForm.get(email)?.invalid &&
+          createUserForm.get(email)?.touched
+        "
+      >
+        Please enter valid email
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="mat-form">
+      <mat-label>Gender</mat-label>
+      <mat-select formControlName="gender">
+        <mat-option value="Male">Male</mat-option>
+        <mat-option value="Female">Female</mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="
+          createUserForm.get(gender)?.invalid &&
+          createUserForm.get(gender)?.touched
+        "
+      >
+        Please select gender
+      </mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">
+      {{ data == "create" ? "Create" : "Update" }}
+    </button>
+
+    <button mat-raised-button color="basic" [routerLink]="['/']">Cancel</button>
+  </form>
+</div>
+
+<!--  -->
+<!-- <div mat-dialog-title>
+  <h1>Employee Form</h1>
+</div>
+<form [formGroup]="createUserForm" (ngSubmit)="onFormSubmit()">
+  <div mat-dialog-content class="content">
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>First name</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Ex. Technical"
+          formControlName="firstName"
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input matInput placeholder="Ex. Babaji" formControlName="lastName" />
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          type="email"
+          placeholder="Ex. test@gmail.com"
+          formControlName="email"
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Date of birth</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="dob" />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-radio-group aria-label="Select an option" formControlName="gender">
+        <mat-label><b>Gender</b></mat-label>
+        <mat-radio-button value="male">Male</mat-radio-button>
+        <mat-radio-button value="female">Female</mat-radio-button>
+        <mat-radio-button value="others">Others</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Education</mat-label>
+        <mat-select formControlName="education">
+          <mat-option *ngFor="let val of education" [value]="val"
+            >{{ val }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Company</mat-label>
+        <input matInput placeholder="Ex. Google" formControlName="company" />
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Experience</mat-label>
+        <input
+          matInput
+          placeholder="Ex. 4"
+          type="number"
+          formControlName="experience"
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Package</mat-label>
+        <input
+          matInput
+          placeholder="Ex. 12"
+          type="number"
+          formControlName="package"
+        />
+        <mat-hint>In rupees</mat-hint>
+      </mat-form-field>
+    </div>
+  </div>
+  <div mat-dialog-actions class="action">
+    <button mat-raised-button type="button" [mat-dialog-close]="false">
+      Cancel
+    </button>
+    <button mat-raised-button color="primary" type="submit">
+      {{ data ? "Update" : "Save" }}
+    </button>
+  </div>
+</form> -->

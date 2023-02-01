@@ -1,0 +1,36 @@
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #ddd;
+}
+.user-list {
+  width: 1200px;
+  height: 800px;
+  margin: 0 auto;
+  padding: 50px;
+  background-color: #f2f2f270;
+  border-radius: 10px;
+}
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+.example-full-width {
+  margin-top: 18px;
+  height: 70px;
+  width: 200px;
+}
+.filter-icon {
+  margin-right: 30px;
+  margin-top: 5px;
+}
