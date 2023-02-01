@@ -11,6 +11,7 @@ import { LocalStorageService } from 'ngx-webstorage';
 import { Injectable } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user.service';
+import { parseTemplate } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root',
@@ -33,6 +34,17 @@ export class CreateUserComponent implements OnInit {
   photo: any;
   userId: Number = 0;
   data: any;
+  selectedUserData: any;
+  // user = {
+  //   userId: null,
+  //   firstName: '',
+  //   lastName: '',
+  //   gender: '',
+  //   dateOfBirth: '',
+  //   phone: '',
+  //   email: '',
+  //   photo: '',
+  // };
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private fb: FormBuilder,
@@ -71,28 +83,53 @@ export class CreateUserComponent implements OnInit {
   ngOnInit() {
     this.router.routerState.root.queryParams.subscribe((params: any) => {
       this.data = params.data;
+      if (params.data === 'edit') {
+        this.createUserForm?.patchValue({
+          firstName: params.firstName,
+          lastName: params.lastName,
+          gender: params.gender,
+          dateOfBirth: params.dateOfBirth,
+          city: params.city,
+          phone: params.phone,
+          email: params.email,
+        });
+
+        console.log(this.createUserForm);
+        console.log(this.createUserForm?.get('firstName'));
+      }
     });
   }
+  // dateValidator(control: FormControl) {
+  //   const currentDate = new Date();
+  //   const minDate = new Date();
+  //   minDate.setFullYear(minDate.getFullYear() - 50);
+  //   const value = new Date(Date.parse(control.value));
+
+  //   if (
+  //     value.getTime() < currentDate.getTime() ||
+  //     value.getTime() > minDate.getTime()
+  //   ) {
+  //     return { dateOfBirth: true };
+  //   } else {
+  //     return null;
+  //   }
+  // }
   dateValidator(control: FormControl) {
-    console.log('hello2');
     const currentDate = new Date();
-    const minDate = new Date();
-    minDate.setFullYear(minDate.getFullYear() - 50);
+    const maxDate = new Date();
+    maxDate.setFullYear(maxDate.getFullYear() - 50);
     const value = new Date(Date.parse(control.value));
-    console.log(value.getTime());
-    console.log(currentDate.getTime());
-    console.log(minDate.getTime());
 
     if (
       value.getTime() < currentDate.getTime() ||
-      value.getTime() > minDate.getTime()
+      value.getTime() > maxDate.getTime()
     ) {
-      console.log('h3');
       return { dateOfBirth: true };
     } else {
       return null;
     }
   }
+
   onSubmit() {
     if (this.createUserForm.valid) {
       console.log(isPlatformBrowser(this.platformId));

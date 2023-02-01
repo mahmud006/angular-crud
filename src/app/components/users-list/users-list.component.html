@@ -16,7 +16,7 @@
       <button mat-menu-item (click)="filterBy('name')">Name</button>
       <button mat-menu-item (click)="filterBy('email')">Email</button>
     </mat-menu>
-    <!-- <span class="toolbar-spacer"></span> -->
+
     <button
       mat-raised-button
       color="warn"
@@ -58,7 +58,6 @@
         >
           Edit
         </button>
-        <!-- <app-create-user [data]="selectedData"></app-create-user> -->
 
         <button mat-icon-button (click)="deleteUser(user.value)">
           <mat-icon>delete</mat-icon>

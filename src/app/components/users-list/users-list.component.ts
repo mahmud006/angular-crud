@@ -2,7 +2,6 @@ import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { LocalStorageService } from 'ngx-webstorage';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
-// import { LocalService } from '../../local.service';
 import { FilterPipe } from 'src/app/pipes/FilterPipe';
 import { Router, ActivatedRoute } from '@angular/router';
 @Component({
@@ -34,8 +33,7 @@ export class UsersListComponent implements OnInit {
     this.userId++;
     let storedUser: any = localStorage.getItem('user');
     this.users = JSON.parse(storedUser);
-    console.log(storedUser);
-    console.log(this.users);
+
     this.totalUsers = this.users.length;
     this.displayedUsers = this.users.slice(0, this.pageSize);
   }
@@ -64,7 +62,6 @@ export class UsersListComponent implements OnInit {
     this.displayedUsers.splice(index, 1);
     this.users.splice(index, 1);
 
-    // Implement the logic for sending a delete request to the backend API
     localStorage.setItem('user', JSON.stringify(this.users));
   }
   filterBy(option: string) {
@@ -74,6 +71,7 @@ export class UsersListComponent implements OnInit {
     this.router.navigate(['/create-user'], {
       queryParams: {
         data: 'edit',
+        selectedData: user,
       },
     });
   }
