@@ -99,33 +99,22 @@ export class CreateUserComponent implements OnInit {
       }
     });
   }
-  // dateValidator(control: FormControl) {
-  //   const currentDate = new Date();
-  //   const minDate = new Date();
-  //   minDate.setFullYear(minDate.getFullYear() - 50);
-  //   const value = new Date(Date.parse(control.value));
-
-  //   if (
-  //     value.getTime() < currentDate.getTime() ||
-  //     value.getTime() > minDate.getTime()
-  //   ) {
-  //     return { dateOfBirth: true };
-  //   } else {
-  //     return null;
-  //   }
-  // }
   dateValidator(control: FormControl) {
     const currentDate = new Date();
-    const maxDate = new Date();
-    maxDate.setFullYear(maxDate.getFullYear() - 50);
+    const minDate = new Date();
+    minDate.setFullYear(minDate.getFullYear() - 50);
     const value = new Date(Date.parse(control.value));
 
     if (
-      value.getTime() < currentDate.getTime() ||
-      value.getTime() > maxDate.getTime()
+      value.getFullYear() > currentDate.getFullYear() ||
+      value.getFullYear() < minDate.getFullYear()
     ) {
+      console.log(value.getFullYear());
+      console.log(currentDate.getFullYear());
+      console.log(minDate.getFullYear());
       return { dateOfBirth: true };
     } else {
+      console.log('abc');
       return null;
     }
   }
