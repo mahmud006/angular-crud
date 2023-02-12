@@ -34,3 +34,8 @@ th {
   margin-right: 30px;
   margin-top: 5px;
 }
+.img-rounded {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}

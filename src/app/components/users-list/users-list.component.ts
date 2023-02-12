@@ -15,14 +15,13 @@ export class UsersListComponent implements OnInit {
   pageSize = 10;
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pageEvent: any;
-  sortBy = 'firstName';
+  sortBy = '';
   sortOrder = 'asc';
   displayedUsers: any[] = [];
   term: string = '';
-  filterOption: string = '';
-  userId: any = 0;
+  filterOption: string = 'name';
   data: string = '';
-  selectedData: string = '';
+  idx: any;
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private localStorage: LocalStorageService,
@@ -30,18 +29,17 @@ export class UsersListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.userId++;
+    // this.userId++;
     let storedUser: any = localStorage.getItem('user');
     this.users = JSON.parse(storedUser);
-
     this.totalUsers = this.users.length;
     this.displayedUsers = this.users.slice(0, this.pageSize);
+    console.log(this.users);
   }
 
   sortList(field: string) {
-    console.log('a');
+    // this.displayedUsers = this.users.slice(0, this.pageSize);
     if (this.sortOrder === 'asc') {
-      console.log('b');
       this.displayedUsers.sort((a, b) => (a[field] < b[field] ? -1 : 1));
       this.sortOrder = 'desc';
     } else {
@@ -58,20 +56,22 @@ export class UsersListComponent implements OnInit {
     this.totalUsers = event.length;
   }
   deleteUser(user: any) {
-    const index = this.displayedUsers.indexOf(user);
-    this.displayedUsers.splice(index, 1);
-    this.users.splice(index, 1);
-
+    const indexInUsers = this.users.indexOf(user);
+    const indexInDisplayedUsers = this.displayedUsers.indexOf(user);
+    this.displayedUsers.splice(indexInDisplayedUsers, 1);
+    this.users.splice(indexInUsers, 1);
     localStorage.setItem('user', JSON.stringify(this.users));
   }
   filterBy(option: string) {
     this.filterOption = option;
   }
   editUser(user: any) {
+    const index = this.users.indexOf(user);
+    console.log(index);
     this.router.navigate(['/create-user'], {
       queryParams: {
+        idx: index,
         data: 'edit',
-        selectedData: user,
       },
     });
   }

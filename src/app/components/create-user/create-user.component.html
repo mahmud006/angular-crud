@@ -1,12 +1,15 @@
 <!-- <p>create-user works!</p> -->
 <div class="form-container">
-  <h1>Create New User</h1>
+  <h1>{{ data == "create" ? "Create New User" : "Update User" }} </h1>
   <form [formGroup]="createUserForm" (ngSubmit)="onSubmit()">
     <div class="mat-form-field">
       <h3>Profile Picture</h3>
+
       <input
         type="file"
+        (change)="readURL($event)"
         accept="image/jpg, image/png"
+        [(ngModel)]="user.photo"
         formControlName="photo"
         required
       />
@@ -18,7 +21,7 @@
           createUserForm.get('photo')?.touched
         "
       >
-        Please select a photo (jpeg or png format only)
+        Please select a photo (jpg or png format only)
       </mat-error>
     </div>
 
@@ -26,7 +29,7 @@
       <input
         matInput
         type="text"
-        [(ngModel)]="firstName"
+        [(ngModel)]="user.firstName"
         formControlName="firstName"
         placeholder="First Name"
       />
@@ -44,7 +47,7 @@
       <input
         matInput
         type="text"
-        [(ngModel)]="lastName"
+        [(ngModel)]="user.lastName"
         formControlName="lastName"
         placeholder="Last Name"
       />
@@ -62,37 +65,41 @@
       <input
         matInput
         [matDatepicker]="picker"
+        [(ngModel)]="user.dateOfBirth"
         formControlName="dateOfBirth"
         placeholder="Date of Birth"
       />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
       <mat-error
-        *ngIf="
-          createUserForm.get(dateOfBirth)?.invalid &&
-          createUserForm.get(dateOfBirth)?.touched
-        "
+        *ngIf="createUserForm.get('dateOfBirth')?.hasError('invalidBirthdate')"
       >
-        Please select date of birth
+        Please select a valid date
       </mat-error>
-    </mat-form-field>
-
-    <mat-form-field class="mat-form">
-      <input matInput type="text" formControlName="city" placeholder="City" />
     </mat-form-field>
 
     <mat-form-field class="mat-form">
       <input
         matInput
         type="text"
-        [(ngModel)]="phone"
+        [(ngModel)]="user.city"
+        formControlName="city"
+        placeholder="City"
+      />
+    </mat-form-field>
+
+    <mat-form-field class="mat-form">
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="user.phone"
         formControlName="phone"
         placeholder="Phone"
       />
       <mat-error
         *ngIf="
-          createUserForm.get(phone)?.invalid &&
-          createUserForm.get(phone)?.touched
+          createUserForm.get('phone')?.invalid &&
+          createUserForm.get('phone')?.touched
         "
       >
         Please enter valid phone number
@@ -103,14 +110,14 @@
       <input
         matInput
         type="email"
-        [(ngModel)]="email"
+        [(ngModel)]="user.email"
         formControlName="email"
         placeholder="Email"
       />
       <mat-error
         *ngIf="
-          createUserForm.get(email)?.invalid &&
-          createUserForm.get(email)?.touched
+          createUserForm.get('email')?.invalid &&
+          createUserForm.get('email')?.touched
         "
       >
         Please enter valid email
@@ -118,14 +125,14 @@
     </mat-form-field>
     <mat-form-field class="mat-form">
       <mat-label>Gender</mat-label>
-      <mat-select formControlName="gender">
+      <mat-select [(ngModel)]="user.gender" formControlName="gender">
         <mat-option value="Male">Male</mat-option>
         <mat-option value="Female">Female</mat-option>
       </mat-select>
       <mat-error
         *ngIf="
-          createUserForm.get(gender)?.invalid &&
-          createUserForm.get(gender)?.touched
+          createUserForm.get('gender')?.invalid &&
+          createUserForm.get('gender')?.touched
         "
       >
         Please select gender

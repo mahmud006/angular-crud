@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
+// import { Injectable } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class UserService {
-  private currentUserId = 0;
+// @Injectable({
+//   providedIn: 'root',
+// })
+// export class UserService {
+//   private currentUserId = 0;
 
-  getNextUserId() {
-    return ++this.currentUserId;
-  }
-}
+//   getNextUserId() {
+//     return ++this.currentUserId;
+//   }
+// }

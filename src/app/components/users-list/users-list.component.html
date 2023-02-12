@@ -16,13 +16,8 @@
       <button mat-menu-item (click)="filterBy('name')">Name</button>
       <button mat-menu-item (click)="filterBy('email')">Email</button>
     </mat-menu>
-
-    <button
-      mat-raised-button
-      color="warn"
-      (click)="onCreateUser()"
-      [routerLink]="['create-user']"
-    >
+    <!-- <span class="toolbar-spacer"></span> -->
+    <button mat-raised-button color="warn" (click)="onCreateUser()">
       Create User
     </button>
     <!-- <app-create-user [data]="selectedData"></app-create-user> -->
@@ -32,20 +27,31 @@
 <div class="user-list">
   <table mat-table>
     <tr>
+      <th></th>
       <th (click)="sortList('firstName')">Name</th>
-      <th (click)="sortList('gender')">Gender</th>
       <th (click)="sortList('dateOfBirth')">Date of Birth</th>
+      <th (click)="sortList('gender')">Gender</th>
+
       <th>Email</th>
       <th>Phone</th>
+      <th></th>
     </tr>
     <tr
       *ngFor="
         let user of displayedUsers | filter : filterOption : term | keyvalue
       "
     >
+      <td>
+        <img
+          [src]="user.value.photo"
+          [alt]="user.value.firstName"
+          class="img-rounded"
+        />
+      </td>
       <td>{{ user.value.firstName }} {{ user.value.lastName }}</td>
+      <td>{{ user.value.dateOfBirth | date : "dd/MM/yyyy" }}</td>
       <td>{{ user.value.gender }}</td>
-      <td>{{ user.value.dateOfBirth }}</td>
+
       <td>{{ user.value.email }}</td>
       <td>{{ user.value.phone }}</td>
       <td>
@@ -53,7 +59,7 @@
           mat-raised-button
           color="primary"
           data="data2"
-          (click)="editUser(user)"
+          (click)="editUser(user.value)"
           [routerLink]="['create-user']"
         >
           Edit
